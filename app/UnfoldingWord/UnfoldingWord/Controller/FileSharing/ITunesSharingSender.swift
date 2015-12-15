@@ -12,7 +12,7 @@ import Foundation
     
     func sendToITunesFolder(data : NSData?, filename : String?) -> Bool {
         if let data = data, filename = filename {
-            let savePath = NSString.appDocumentsDirectory().stringByAppendingPathComponent(filename)
+            let savePath = (NSString.appDocumentsDirectory() as NSString).stringByAppendingPathComponent(filename)
             if NSFileManager.defaultManager().createFileAtPath(savePath, contents: data, attributes: nil) {
                 ITunesSharingReceiver().addExistingFilePath(savePath)
                 return true

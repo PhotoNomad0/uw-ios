@@ -43,7 +43,7 @@ import Foundation
         var filepathArray = Array<String>()
         while let filename = enumerator?.nextObject() as? NSString {
             if filename.pathExtension == Constants.FileExtensionUFW {
-                let filepath = rootPath.stringByAppendingPathComponent(filename as String)
+                let filepath = (rootPath as NSString).stringByAppendingPathComponent(filename as String)
                 filepathArray.append(filepath)
             }
         }
@@ -80,9 +80,13 @@ import Foundation
         
         if NSFileManager.defaultManager().fileExistsAtPath(path) {
             var error : NSError? = nil
-            NSFileManager.defaultManager().removeItemAtPath(path, error: &error)
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(path)
+            } catch let error1 as NSError {
+                error = error1
+            }
             if let error = error {
-                println(error)
+                print(error)
                 return false
             }
             else {
@@ -109,7 +113,7 @@ import Foundation
     }
     
     private func iTunesSavedFilePath() -> String {
-        return NSString.documentsDirectory().stringByAppendingPathComponent(Constants.ITunes.FilenameFiles)
+        return (NSString.documentsDirectory() as NSString).stringByAppendingPathComponent(Constants.ITunes.FilenameFiles)
     }
     
     private func retrieveExistingSavedFiles() -> NSArray {

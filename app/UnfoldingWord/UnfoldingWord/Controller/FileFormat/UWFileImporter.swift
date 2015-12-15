@@ -24,7 +24,7 @@ import CoreData
             return false
         }
         
-        var topDictionary = self.file.topLevelObject
+        let topDictionary = self.file.topLevelObject
         UWTopContainer.updateFromArray([topDictionary])
         
         if let

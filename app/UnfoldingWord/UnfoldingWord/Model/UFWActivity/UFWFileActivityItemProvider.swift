@@ -45,7 +45,10 @@ final class UFWFileActivityItemProvider : UIActivityItemProvider {
     // Removes the file from storage. Technically, it should get removed eventually because it's in the caches folder, but this does it right away.
     func cleanup () {
         if let url = self.urlSaved {
-            NSFileManager.defaultManager().removeItemAtURL(url, error: nil)
+            do {
+                try NSFileManager.defaultManager().removeItemAtURL(url)
+            } catch _ {
+            }
         }
     }
     
@@ -56,7 +59,7 @@ final class UFWFileActivityItemProvider : UIActivityItemProvider {
     
     private func tempFileURL() -> NSURL? {
         if let completeFilename = self.version.filename() {
-            let path = NSString.cachesDirectory().stringByAppendingPathComponent(completeFilename)
+            let path = (NSString.cachesDirectory() as NSString).stringByAppendingPathComponent(completeFilename)
             return NSURL(fileURLWithPath: path)
         }
         return nil

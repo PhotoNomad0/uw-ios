@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objc final class UFWFile {
+final class UFWFile {
 
     let sourceDictionary: NSDictionary
     let isValid : Bool
@@ -17,7 +17,7 @@ import UIKit
         get {
             var error : NSError?
             if let
-            data = NSJSONSerialization.dataWithJSONObject(sourceDictionary, options: nil, error: &error),
+            data = NSJSONSerialization.dataWithJSONObject(sourceDictionary, options: []),
             zipData = data.gzippedDataWithCompressionLevel(0.95) {
                 return zipData
             }
@@ -58,10 +58,10 @@ import UIKit
     
     init(fileData : NSData) {
         var dictionary: NSDictionary?
-        var error : NSError?
+        let error : NSError?
 
         if let unzippedData = fileData.gunzippedData() {
-            if let data = NSJSONSerialization.JSONObjectWithData(unzippedData, options: NSJSONReadingOptions.AllowFragments, error: &error) as? NSDictionary {
+            if let data = NSJSONSerialization.JSONObjectWithData(unzippedData, options: NSJSONReadingOptions.AllowFragments) as? NSDictionary {
                 dictionary = data
             }
         }
